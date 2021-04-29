@@ -1,0 +1,39 @@
+{% extends './index.html'%}
+
+
+{% block content %}
+<!-- <table>
+    <tr>
+        <th>
+            name
+        </th>
+        <th>
+            quantity
+        </th>
+        <th>
+            description
+        </th>
+    </tr>
+    {% for medicine in medicines %}
+    <tr>
+        <td>{{medicine.name}}</td>
+        <td>{{medicine.quantity}}</td>
+        <td>{{medicine.description}}</td>
+    </tr>
+    {% endfor %}
+</table> -->
+
+Add Medicine:
+<form method="POST">
+    {% csrf_token %}
+    {{medicineform.as_p}}
+    <input type="submit">
+</form>
+
+Add Food:
+<form method="POST">
+    {% csrf_token %}
+    {{foodform.as_p}}
+    <input type="submit">
+</form>
+{% endblock %}
