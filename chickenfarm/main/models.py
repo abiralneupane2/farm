@@ -96,7 +96,6 @@ class Budget(models.Model):
         return self.amount
 
 
-
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
     cost = models.FloatField()
@@ -112,7 +111,7 @@ class Food(models.Model):
     name = models.CharField(max_length=100, default='dana')
     quantity = models.FloatField()
     timestamp = models.DateTimeField(auto_now=True)
-    farm = models.OneToOneField(Farm, on_delete=models.CASCADE)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}'
@@ -140,3 +139,8 @@ class Egg(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     parent = models.ForeignKey(Chicken, on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+
+class Log(models.Model):
+    reading = models.ForeignKey(Reading, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+    value = models.CharField(max_length=10)

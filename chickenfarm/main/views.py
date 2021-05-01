@@ -15,20 +15,16 @@ def deviceController(request):
     if request.method=='POST':
         sqs=device.get_all_switches
         rqs=device.get_all_readings
-        sformset = modelformset_factory(models.Switch, form=forms.SwitchForm, extra=0)
+        sformset = modelformset_factory(models.Switch,form=forms.SwitchForm, extra=0)
         msformset = sformset(request.POST, queryset=sqs)
-        print(request.POST)
-        rformset = modelformset_factory(models.Reading, form=forms.ReadingForm, extra=0)
+        rformset = modelformset_factory(models.Reading,form=forms.ReadingForm, extra=0)
         mrformset = rformset(request.POST, queryset=rqs)
-        if msformset.is_valid() and mrformset.is_valid():
-            for sform in msformset:
-                temp = sform.save(commit=False)
-                temp.device=device
-                temp.save()
-            for rform in mrformset:
-                temp = rform.save(commit=False)
-                temp.device=device
-                temp.save()
+        if msformset.is_valid():
+            msformset.save()
+        else:
+            print("msformset")
+        if mrformset.is_valid():
+            mrformset.save()
                 
             # return render(request, 'device.html', {'sform': msformset, 'rform': mrformset,})
         else:
@@ -104,3 +100,4 @@ def addItem(request, myform, mymodel, farm):
         temp.farm = farm
         temp.save()
     return 
+

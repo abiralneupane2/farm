@@ -4,10 +4,17 @@
 <form method="POST"> 
     {% csrf_token %}
     {{ formset.management_data }}
-    {{sform.as_p}}
-    {{rform.as_p}}
+    {{rform}}
     <input type="submit">
 </form>
+<form method="POST"> 
+    {% csrf_token %}
+    {{ formset.management_data }}
+    {{sform}}
+    
+    <input type="submit">
+</form>
+
 
 
 {% endblock %}
