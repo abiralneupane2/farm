@@ -26,7 +26,11 @@ SECRET_KEY = '7pdligbgx$doa(i4v5^no7ikzcbji2^x0!qpvmj!bq)=fj&2&a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.1.75',
+    '192.168.1.65' ,
+    'localhost'
+]
 
 
 # Application definition
@@ -39,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'django_extensions'
+    'django_extensions',
+    'django_tables2'
 ]
 
 MIDDLEWARE = [

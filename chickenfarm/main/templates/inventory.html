@@ -1,39 +1,22 @@
 {% extends './index.html'%}
+{% load django_tables2 %} 
 
 
 {% block content %}
-<!-- <table>
-    <tr>
-        <th>
-            name
-        </th>
-        <th>
-            quantity
-        </th>
-        <th>
-            description
-        </th>
-    </tr>
-    {% for medicine in medicines %}
-    <tr>
-        <td>{{medicine.name}}</td>
-        <td>{{medicine.quantity}}</td>
-        <td>{{medicine.description}}</td>
-    </tr>
-    {% endfor %}
-</table> -->
-
+{% render_table medicinetable %}
 Add Medicine:
 <form method="POST">
     {% csrf_token %}
-    {{medicineform.as_p}}
+    {{medicineform}}<br>
     <input type="submit">
 </form>
 
+
+{% render_table foodtable %}
 Add Food:
 <form method="POST">
     {% csrf_token %}
-    {{foodform.as_p}}
+    {{foodform}}<br>
     <input type="submit">
 </form>
 {% endblock %}

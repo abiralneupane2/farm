@@ -13,10 +13,7 @@ GENDER = [
     ('F', 'Female')
 ]
 
-TYPE = [
-    ('V', 'Value'),
-    ('S', 'Switch')
-]
+
 
 class Farm(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
@@ -39,11 +36,12 @@ class Farm(models.Model):
 
 
 class Device(models.Model):
+    id = models.CharField(max_length=5, primary_key=True)
     farm = models.OneToOneField(Farm, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now=True)
-    ip = models.CharField(max_length=19)
-    wifi_ssid = models.CharField(max_length=20)
-    wifi_password = models.CharField(max_length=20)
+    ip = models.CharField(max_length=19, null=True)
+    wifi_ssid = models.CharField(max_length=20, null=True)
+    wifi_password = models.CharField(max_length=20, null=True   )
 
     @property
     def get_all_switches(self):
@@ -60,12 +58,20 @@ class Device(models.Model):
 
 class Reading(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, default='test')
-    value = models.FloatField(default=0.0)
-    comment = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='test', unique=True)
+    description = models.CharField(max_length=100)
+
+    def get_few_data(self):
+        return Data.objects.filter(reading=self).order_by('-id')[:10][::-1]
+    def __str__(self):
+        return f'{self.device.farm.name}:{self.name}'
+
+class Data(models.Model):
+    reading = models.ForeignKey(Reading, on_delete=models.CASCADE)
+    value = models.FloatField()
 
     def __str__(self):
-        return f'{self.name}: {self.value}'
+        return f'{self.reading.name}: {self.value}'
 
 class Switch(models.Model):
     
@@ -115,6 +121,8 @@ class Food(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+
 
 class Water(models.Model):
     farm = models.OneToOneField(Farm, on_delete=models.CASCADE)

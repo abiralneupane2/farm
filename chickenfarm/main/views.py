@@ -2,12 +2,16 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.forms.models import inlineformset_factory, modelformset_factory
 from django.forms import formset_factory
-from . import models, forms
+from . import models, forms, tables
 from django.urls import reverse
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 def index(request):
-    return render(request, 'index.html')
+    user = request.user
+    device = user.employee.farm.device
+    readings = device.get_all_readings
+    return render(request, 'index.html', {'readings': readings})
 
 
 def deviceController(request):
@@ -61,8 +65,8 @@ class InventoryView(View):
     def get(self, request):
         farm = request.user.employee.farm
         context = {
-            'medicines': farm.get_all_medicines,
-            'food': farm.get_all_food,
+            'medicinetable': tables.MedicineTable(farm.get_all_medicines),
+            'foodtable': tables.FoodTable(farm.get_all_food),
             'eggs': farm.get_all_eggs,
             'medicineform': forms.MedicineForm(),
             'foodform': forms.FoodForm()
@@ -80,8 +84,8 @@ class InventoryView(View):
         else:
             return redirect(reverse('inventory'))
         context = {
-            'medicines': farm.get_all_medicines,
-            'food': farm.get_all_food,
+            'medicinetable': tables.MedicineTable(farm.get_all_medicines),
+            'foodtable': tables.FoodTable(farm.get_all_food),
             'eggs': farm.get_all_eggs,
             'medicineform': forms.MedicineForm(),
             'foodform': forms.FoodForm()
@@ -101,3 +105,15 @@ def addItem(request, myform, mymodel, farm):
         temp.save()
     return 
 
+@csrf_exempt
+def data(request):
+    if request.method=='POST':
+        temperature = request.POST.get('temperature')
+        humidity = request.POST.get('humidity')
+        id = request.POST.get('id')
+        mdevice = models.Device.objects.get(id=id)
+        mreading = models.Reading.objects.get(name='temperature')
+        models.Data(reading=mreading, value=temperature).save()
+        mreading = models.Reading.objects.get(name='humidity')
+        models.Data(reading=mreading, value=temperature).save()
+        return HttpResponse(status=200)
