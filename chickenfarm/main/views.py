@@ -11,7 +11,10 @@ def index(request):
     user = request.user
     device = user.employee.farm.device
     readings = device.get_all_readings
+    if request.method == POST:
+        pass
     return render(request, 'index.html', {'readings': readings})
+
 
 
 def deviceController(request):
