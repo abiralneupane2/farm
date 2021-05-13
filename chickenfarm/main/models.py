@@ -60,15 +60,22 @@ class Reading(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default='test', unique=True)
     description = models.CharField(max_length=100)
-
-    def get_few_data(self):
+    @property
+    def ten_data(self):
         return Data.objects.filter(reading=self).order_by('-id')[:10][::-1]
+
+    @property
+    def get_all_data(self):
+        return Data.objects.filter(reading=self).order_by('id')[:10][::-1]
     def __str__(self):
         return f'{self.device.farm.name}:{self.name}'
+
+    
 
 class Data(models.Model):
     reading = models.ForeignKey(Reading, on_delete=models.CASCADE)
     value = models.FloatField()
+
 
     def __str__(self):
         return f'{self.reading.name}: {self.value}'

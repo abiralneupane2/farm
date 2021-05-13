@@ -11,3 +11,8 @@ class FoodTable(tables.Table):
     class Meta:
         model = models.Food
         exclude = ('farm','id')
+
+class DataTable(tables.Table):
+    class Meta:
+        model = models.Data
+        

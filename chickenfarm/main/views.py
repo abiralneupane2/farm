@@ -11,9 +11,11 @@ def index(request):
     user = request.user
     device = user.employee.farm.device
     readings = device.get_all_readings
-    if request.method == POST:
-        pass
-    return render(request, 'index.html', {'readings': readings})
+    count = len(readings)
+    data = models.Data.objects.filter(reading__in=readings).order_by('-id','reading')[:count*10]
+    
+    # print(data)
+    return render(request, 'index.html', {'readings': readings, 'data': data})
 
 
 

@@ -1,4 +1,5 @@
 {% load static %}
+{% load django_tables2 %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +21,38 @@
     <link href="{% static 'plugins/apex/apexcharts.css'%}" rel="stylesheet" type="text/css">
     <link href="{% static 'assets/css/dashboard/dash_1.css'%}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <style>
+        .apexcharts-canvas {
+            margin: 0 auto;
+        }
+
+        .apexcharts-title-text {
+            fill: #e0e6ed;
+        }
+
+        .apexcharts-yaxis-label {
+            fill: #e0e6ed;
+        }
+
+        .apexcharts-xaxis-label {
+            fill: #e0e6ed;
+        }
+
+        .apexcharts-legend-text {
+            color: #e0e6ed !important;
+        }
+
+        .apexcharts-radialbar-track.apexcharts-track .apexcharts-radialbar-area {
+            stroke: #191e3a;
+        }
+
+        .apexcharts-pie-label,
+        .apexcharts-datalabel,
+        .apexcharts-datalabel-label,
+        .apexcharts-datalabel-value {
+            fill: #bfc9d4;
+        }
+    </style>
 
 </head>
 
@@ -74,14 +107,18 @@
                         <img src="{%static 'assets/img/ca.png'%}" class="flag-width" alt="flag">
                     </a>
                     <div class="dropdown-menu position-absolute" aria-labelledby="language-dropdown">
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{%static 'assets/img/de.png'%}"
-                                class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;German</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{%static 'assets/img/jp.png'%}"
-                                class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Japanese</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{%static 'assets/img/fr.png'%}"
-                                class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;French</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{%static 'assets/img/ca.png'%}"
-                                class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;English</span></a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img
+                                src="{%static 'assets/img/de.png'%}" class="flag-width" alt="flag"> <span
+                                class="align-self-center">&nbsp;German</span></a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img
+                                src="{%static 'assets/img/jp.png'%}" class="flag-width" alt="flag"> <span
+                                class="align-self-center">&nbsp;Japanese</span></a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img
+                                src="{%static 'assets/img/fr.png'%}" class="flag-width" alt="flag"> <span
+                                class="align-self-center">&nbsp;French</span></a>
+                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img
+                                src="{%static 'assets/img/ca.png'%}" class="flag-width" alt="flag"> <span
+                                class="align-self-center">&nbsp;English</span></a>
                     </div>
                 </li>
 
@@ -103,8 +140,8 @@
 
                                     <div class="media">
                                         <div class="user-img">
-                                            <img class="usr-img rounded-circle" src="{%static 'assets/img/profile-11.jpg'%}"
-                                                alt="profile">
+                                            <img class="usr-img rounded-circle"
+                                                src="{%static 'assets/img/profile-11.jpg'%}" alt="profile">
                                         </div>
                                         <div class="media-body">
                                             <div class="">
@@ -121,8 +158,8 @@
 
                                     <div class="media">
                                         <div class="user-img">
-                                            <img class="usr-img rounded-circle" src="{%static 'assets/img/profile-16.jpg'%}"
-                                                alt="profile">
+                                            <img class="usr-img rounded-circle"
+                                                src="{%static 'assets/img/profile-16.jpg'%}" alt="profile">
                                         </div>
                                         <div class="media-body">
                                             <div class="">
@@ -139,8 +176,8 @@
 
                                     <div class="media">
                                         <div class="user-img">
-                                            <img class="usr-img rounded-circle" src="{%static 'assets/img/profile-34.jpg'%}"
-                                                alt="profile">
+                                            <img class="usr-img rounded-circle"
+                                                src="{%static 'assets/img/profile-34.jpg'%}" alt="profile">
                                         </div>
                                         <div class="media-body">
                                             <div class="">
@@ -327,7 +364,7 @@
         </header>
     </div>
     <!--  END NAVBAR  -->
-{%block content%}
+    {%block content%}
     <!--  BEGIN MAIN CONTAINER  -->
     <div class="main-container" id="container">
 
@@ -341,8 +378,7 @@
                 <div class="shadow-bottom"></div>
                 <ul class="list-unstyled menu-categories" id="accordionExample">
                     <li class="menu">
-                        <a href="{% url 'index'%}" data-active="false" 
-                            class="dropdown-toggle">
+                        <a href="{% url 'index'%}" data-active="true" aria-expanded="true" class="dropdown-toggle">
                             <div class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -352,17 +388,11 @@
                                 </svg>
                                 <span>Dashboard</span>
                             </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-chevron-right">
-                                </svg>
-                            </div>
                         </a>
-                        
                     </li>
 
-                    
+
+
 
                 </ul>
                 <!-- <div class="shadow-bottom"></div> -->
@@ -374,29 +404,111 @@
 
         <!--  BEGIN CONTENT AREA  -->
         <div id="content" class="main-content">
-            
+            {{data}}
+            <div class="row" id="cancel-row">
+                <div id="chartLine" class="col-xl-12 layout-top-spacing layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Temperature</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area">
+                            <div id="s-line" class="" style="min-height: 365px;">
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--  END CONTENT AREA  -->
 
     </div>
     <!-- END MAIN CONTAINER -->
-{% endblock %}
+    {% endblock %}
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{%static 'assets/js/libs/jquery-3.1.1.min.js'%}"></script>
     <script src="{%static 'bootstrap/js/popper.min.js'%}"></script>
     <script src="{%static 'bootstrap/js/bootstrap.min.js'%}"></script>
     <script src="{%static 'plugins/perfect-scrollbar/perfect-scrollbar.min.js'%}"></script>
     <script src="{%static 'assets/js/app.js'%}"></script>
+    <script src="{%static 'plugins/apex/apexcharts.min.js'%}"></script>
+    <script src="{%static 'assets/js/custom.js'%}"></script>
     <script>
+
+        var sline = {
+            chart: {
+                height: 300,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: false,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            series: [{
+                name: "Desktops",
+                data: [10, 41, 35, 51, 49, 42, 39, 41, 30]
+            }],
+            // title: {
+            //     text: 'Product Trends by Month',
+            //     align: 'left'
+            // },
+            grid: {
+                row: {
+                    colors: ['#f1f2f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        }
+        
+        const ws = new WebSocket('ws://localhost:8000/ws/graph/')
+        ws.onopen = function(event){
+            console.log("open",event);
+        }
+        ws.onerror = function(event){
+            console.log("error",event);
+        }
+        ws.onclose = function(event){
+            console.log("close",event)
+        }
+
         $(document).ready(function () {
             App.init();
+            var chart = new ApexCharts(
+                document.querySelector("#s-line"),
+                sline
+            );
+            chart.render();
         });
+
+        
+
+
+
+
     </script>
-    <script src="{%static 'assets/js/custom.js'%}"></script>
+
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-    <script src="{%static 'plugins/apex/apexcharts.min.js'%}"></script>
+
     <script src="{%static 'assets/js/dashboard/dash_1.js'%}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 </body>
